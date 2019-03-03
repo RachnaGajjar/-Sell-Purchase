@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Book;
 use Illuminate\Http\Request;
-
+use  App\Http\Requests\BookFormRequest;
 class BookController extends Controller
 {
     /**
@@ -24,7 +23,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        return(view('books.form'));
+        return view('books.form');
     }
 
     /**
@@ -33,9 +32,9 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookFormRequest $request)
     {
-        //
+        return "hello";
     }
 
     /**
