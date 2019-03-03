@@ -26,7 +26,7 @@ class BookFormRequest extends FormRequest
     {
         return [
 
-            "title=>requried";
+            "title"=>"required"
             
 
             
