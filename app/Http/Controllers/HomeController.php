@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\UserBook;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+            $list = UserBook::where(['user_id' => Auth::user()->id])->get();
+            return view('home', compact('list'));
+
     }
 }

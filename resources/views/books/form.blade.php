@@ -1,86 +1,145 @@
-
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('book.form_title') }}</div>
+                <div class="card-header">
+                    <a href="{{ route('home') }}" class="btn btn-primary btn-sm float-right"> 
+                        Back
+                    </a>
+                    Book Form
+
+                </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('books.store') }}">
-                        @csrf
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-                        
-                        <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('book.filed_label.title') }}</label>
+                    @if(@$isbn) 
+                   <form action="{{ route('books.store') }}" method="POST">
 
-                            <div class="col-md-6">
-                                <input id="title" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="title" value="{{ old('name') }}" required autofocus>
+                            @csrf
 
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                            @if(@$book) 
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                            @endif
+
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input class="form-control {{@$errors->has('title')?'is-invalid':''}}" type="text" value="{{ old('title', @$book->title)}}" name="title"></input>
+
+                                @if(@$errors->has('title'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('title') }}
+                                    </div>
+                                @endif
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control {{@$errors->has('description')?'is-invalid':''}}">{{ old('description', @$book->description)}}</textarea>
+                                @if(@$errors->has('description'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('description') }}
+                                    </div>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="auther" class="col-md-4 col-form-label text-md-right">{{ __('book.authername_filed.auther') }}</label>
+                            <div class="row">
+                                <div class="col-md">
 
-                            <div class="col-md-6">
-                                <input id="auther" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="auther " value="{{ old('text') }}" required>
+                                    <div class="form-group">
+                                        <label>Author</label>
+                                        <input class="form-control {{@$errors->has('author')?'is-invalid':''}}" type="text" value="{{ old('author', @$book->author)}}" name="author"></input>
 
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                                        @if(@$errors->has('author'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('author') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>MRP</label>
+                                        <input class="form-control {{@$errors->has('mrp')?'is-invalid':''}}" type="text" value="{{ old('mrp', @$book->mrp)}}" name="mrp"></input>
+
+                                        @if(@$errors->has('mrp'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('mrp') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md">
+
+                                    <div class="form-group">
+                                        <label>ISBN 10</label>
+                                        <input class="form-control {{@$errors->has('isbn10')?'is-invalid':''}}" type="text" value="{{ old('isbn10', @$book->isbn10?@$book->isbn10:$isbn10)}}" name="isbn10"></input>
+
+                                        @if(@$errors->has('isbn10'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('isbn10') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>ISBN 13</label>
+                                        <input class="form-control {{@$errors->has('isbn13')?'is-invalid':''}}" type="text" value="{{ old('isbn13', @$book->isbn13?@$book->isbn13:$isbn13)}}" name="isbn13"></input>
+                                        @if(@$errors->has('isbn13'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('isbn13') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('book.price_filed.price') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="price" type="text" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="price" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Your selling price</label>
+                                        <input class="form-control {{@$errors->has('selling_price')?'is-invalid':''}}" type="text" value="{{ old('selling_price', @$book->selling_price)}}" name="selling_price"></input>
+                                        @if(@$errors->has('selling_price'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('selling_price') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="isdn10" class="col-md-4 col-form-label text-md-right">{{ __('book.isdn10_filed.isdn10') }}</label>
-
-                            <div class="col-md-6">
-                            <input id="isdn10" type="text" class="form-control" name="isdn10" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ifdn13" class="col-md-4 col-form-label text-md-right">{{ __('book.isdn13_filed.isdn13') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="ifdn13" type="text" class="form-control" name="ifdn13" required>
-                            </div>
-                        </div>
 
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Save') }}   
-            
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">
+                                    Save
                                 </button>
                             </div>
-                        </div>
-                    </form>
+
+                        </form>
+
+                    @else
+
+                        <form>
+                            <div class="form-group">
+                                <label>Enter ISBN:</label>
+                                <input type="text" name="isbn" class="form-control">
+                            </div>                        
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success"> Check Book Available ?</button>
+                            </div>
+                        </form>
+
+                    @endif
+
                 </div>
             </div>
         </div>

@@ -27,4 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function userBook() {
+        return $this->hasMany(UserBook::class, 'user_id');
+    }
+
+    public function profile() {
+        return $this->hasOne(Profile::class, 'user_id');
+    }
+
 }

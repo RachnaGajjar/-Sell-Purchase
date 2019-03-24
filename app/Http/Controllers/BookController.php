@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Book;
 use Illuminate\Http\Request;
 use  App\Http\Requests\BookFormRequest;
+use App\UserBook;
+use Auth;
 class BookController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return('rachna');
+        //return('rachna');
     }
 
     /**
@@ -21,9 +23,16 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('books.form');
+        $isbn = $request->isbn;
+        $isbn10 = $isbn13 = '';
+
+        if(strlen($isbn) == 10) $isbn10 = $isbn;
+        if(strlen($isbn) == 13) $isbn13 = $isbn;
+
+        $book = Book::where('isbn10', $isbn)->orWhere('isbn13', $isbn)->first();
+         return view('books.form', compact('isbn', 'isbn10', 'isbn13', 'book'));
     }
 
     /**
@@ -34,9 +43,32 @@ class BookController extends Controller
      */
     public function store(BookFormRequest $request)
     {
-        return "hello";
+         if(@$request->book_id) {
+        $userBook= new UserBook;
+        $userBook->user()->associate(Auth::user());
+        $userBook->book_id=$request->book_id;
+        $userBook->selling_price=$request->selling_price;
+        $userBook->save();
     }
+    else
+    {
+        $book = new Book;
+            $book->title = $request->title;
+            $book->description = $request->description;
+            $book->author = $request->author;
+            $book->mrp = $request->mrp;
+            $book->isbn10 = $request->isbn10;
+            $book->isbn13 = $request->isbn13;
+            $book->save();
 
+             $userBook = new UserBook;
+            $userBook->user()->associate(Auth::user());
+            $userBook->book()->associate($book);
+            $userBook->selling_price = $request->selling_price;
+            $userBook->save();
+    }
+        return redirect()->route('home');
+}
     /**
      * Display the specified resource.
      *
@@ -77,8 +109,22 @@ class BookController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy(UserBook $book)
     {
         //
+         $book->delete();
+        return redirect()->route('home');
     }
+    public function sold(UserBook $book)
+    {
+
+
+        //return ($book);
+        $book->sold = true;
+        $book->save();
+        return redirect()->route('home');
+        
+    }
+
+  
 }
