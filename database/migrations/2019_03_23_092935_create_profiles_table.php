@@ -14,6 +14,7 @@ class CreateProfilesTable extends Migration
     public function up()
     {
        Schema::create('profiles', function (Blueprint $table) {
+        
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->enum('gender', ['MALE', 'FEMALE', 'OTHER'])->nullable();
@@ -22,11 +23,7 @@ class CreateProfilesTable extends Migration
             $table->string('mobile')->nullable();
             $table->timestamps();
         });
-        $table->foreign('user_id')
-          ->references('id')
-          ->on('users')
-          ->onUpdate('cascade')
-          ->onDelete('cascade');
+        
     }
 
     /**

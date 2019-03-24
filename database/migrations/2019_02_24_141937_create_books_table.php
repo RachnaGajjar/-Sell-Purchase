@@ -13,7 +13,7 @@ class CreateBooksTable extends Migration
      */
     public function up()
     {
-        Schema::create('User_books', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->text('description')->nullable();
@@ -23,19 +23,6 @@ class CreateBooksTable extends Migration
             $table->string('isbn13')->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();
-
-            $table->foreign('user_id')
-              ->references('id')
-              ->on('users')
-              ->onUpdate('cascade')
-              ->onDelete('cascade');
-
-            $table->foreign('book_id')
-              ->references('id')
-              ->on('books')
-              ->onUpdate('cascade')
-              ->onDelete('cascade');
-        });
         }); 
     }
 
