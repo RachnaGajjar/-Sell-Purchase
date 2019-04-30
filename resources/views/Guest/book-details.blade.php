@@ -15,7 +15,15 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    <div class="row">
+                    <div class="col-sm-3">
+                        <img class="card-img-top" src="../uploads/books/{{ $book->image }}" style="margin-bottom: 15px; height: 450px; width: 400px;" id="output">
+                    </div>
+                    <!--div class="col-sm-1">
+                    </div-->
+                    </div>
+                </div>
+                <div style="padding: 20px;">
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
@@ -45,7 +53,10 @@
                         </tbody>
                     </table>
 
-                    <h5>Offers available</h5>
+                    </div>
+
+                    <div class="col-sm-9">
+                        <h5>Offers available</h5>
 
                     <table class="table table-bordered">
                         <thead>
@@ -68,8 +79,7 @@
                             </tr>
                             @endforeach
                         </tbody>
-                    </table>
-
+                    </table>     
                 </div>
             </div>
         </div>

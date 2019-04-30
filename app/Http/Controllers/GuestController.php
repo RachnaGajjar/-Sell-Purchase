@@ -13,7 +13,9 @@ class GuestController extends Controller
     public function search(Request $request) {
     	$q = $request->get('query');
     	$part = '%' . $q . '%';
-    	$list = SearchBook::where('title', 'like', $part)->get();
+    	$list = SearchBook::where('title', 'like', $part)
+                ->orWhere('author', 'like', $part)
+                ->orWhere('description', 'like', $part)->get();
     	return view('guest.book-search', compact('q', 'list'));
     }
 

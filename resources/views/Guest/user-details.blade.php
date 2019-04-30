@@ -16,6 +16,9 @@
                         </div>
                     @endif
 
+                    @if(@$user->profile->avatar)
+                    <img src="../uploads/users/{{ $user->profile->avatar }}" style="width: 150; height: 150; padding-bottom: 20px; ">
+                    @endif
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
@@ -28,14 +31,13 @@
                             </tr>
                             <tr>
                                 <th>Mobile</th>
-                                <td>{{ @$user->profile->mobile }}</td>
+                                <td><a href="tel:+91{{ @$user->profile->mobile }}">{{ @$user->profile->mobile }}</a></td>
                             </tr>
                             @if(@$user->profile)
                             <tr>
                                 <th>Gender</th>
                                 <td>{{ $genders[$user->profile->gender] }}</td>
                             </tr>
-                            @endif
                             <tr>
                                 <th>Semester</th>
                                 <td>{{ @$user->profile->semester }}</td>
@@ -44,6 +46,7 @@
                                 <th>Stream</th>
                                 <td>{{ @$user->profile->stream }}</td>
                             </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

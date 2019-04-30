@@ -21,7 +21,7 @@
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="Search Book Name" name="query" value="{{ $q }}">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                <button class="search btn btn-outline-secondary" type="submit">Search</button>
                             </div>
                         </div>
                     </form>

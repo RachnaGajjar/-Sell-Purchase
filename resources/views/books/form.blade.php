@@ -1,5 +1,16 @@
 @extends('layouts.app')
 @section('content')
+
+<script>
+        var loadFile = function(event) {
+        var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+
+                document.getElementById("output").style.display = "block";
+  };
+</script>
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -19,10 +30,23 @@
                         </div>
                     @endif
 
-                    @if(@$isbn) 
-                   <form action="{{ route('books.store') }}" method="POST">
+                    @if(@$isbn)
+                        
+                        
+                      
+                   <form enctype="multipart/form-data" action="{{ route('books.store') }}" method="POST">
 
-                            @csrf
+                    @csrf
+                        
+                        <img class="card-img-top" src="../uploads/books/{{ old('image', @$book->image) }}" style="width: 150px; height: 150px; display: none;" id="output">
+                        
+                      <div class="form-group row">
+                        <label class="col-md-3">Upload Book Images</label>
+                        <div class="col-sm-9">
+                          <input type="file" name="image" value="{{ old('image', @$book->image) }}" onchange="loadFile(event)">
+                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        </div>
+                      </div> 
 
                             @if(@$book) 
                                 <input type="hidden" name="book_id" value="{{ $book->id }}">
@@ -119,7 +143,7 @@
 
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success" onclick="IsEmpty();">
                                     Save
                                 </button>
                             </div>
@@ -131,7 +155,7 @@
                         <form>
                             <div class="form-group">
                                 <label>Enter ISBN:</label>
-                                <input type="text" name="isbn" class="form-control">
+                                <input type="text" pattern="\d*" title="Only numerical value is allowed" minlength="10" maxlength="13" name="isbn" class="form-control">
                             </div>                        
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success"> Check Book Available ?</button>

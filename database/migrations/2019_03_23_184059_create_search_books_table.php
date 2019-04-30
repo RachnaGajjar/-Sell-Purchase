@@ -41,7 +41,7 @@ class CreateSearchBooksTable extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW search_books');
         DB::statement('DROP VIEW least_book_price');
+        DB::statement('DROP VIEW search_books');
     }
 }

@@ -21,6 +21,7 @@
                             <thead>
                                 <tr>
                                     <th> # </th>
+                                    <th> Image </th>
                                     <th> Title </th>
                                     <th> Selling Price / MRP </th>
                                     <th> Verified </th>
@@ -32,7 +33,9 @@
                                 @foreach($list as $i => $ubook)
                                 <tr>
                                     <td> {{ $i + 1 }} </td>
-                                    <td> {{ $ubook->book->title }} </td>
+                                    <td> <img class="card-img-top" src="../uploads/books/{{ $ubook->book->image }}" style="width: 150px; height: 150px;" id="output">
+                                     </td>
+                                    <td><a href="{{ route('books.details', $ubook->book->id) }}"> {{ $ubook->book->title }} </a></td>
                                     <td> {{ $ubook->selling_price }} ( <strike> {{ $ubook->book->mrp }} </strike>) </td>
                                     <td> {{ $ubook->book->verified }} </td>
                                     <td>

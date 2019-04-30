@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use  App\Http\Requests\BookFormRequest;
 use App\UserBook;
 use Auth;
+use Image;
+
+
 class BookController extends Controller
 {
     /**
@@ -43,16 +46,22 @@ class BookController extends Controller
      */
     public function store(BookFormRequest $request)
     {
-         if(@$request->book_id) {
+        if(@$request->book_id) {
         $userBook= new UserBook;
         $userBook->user()->associate(Auth::user());
         $userBook->book_id=$request->book_id;
         $userBook->selling_price=$request->selling_price;
         $userBook->save();
-    }
-    else
-    {
-        $book = new Book;
+        }
+        else
+        {
+            $book = new Book;
+            if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time().'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(300, 300)->save( public_path('uploads/books/'.$filename));
+            $book->image = $filename;
+            }
             $book->title = $request->title;
             $book->description = $request->description;
             $book->author = $request->author;
@@ -61,7 +70,7 @@ class BookController extends Controller
             $book->isbn13 = $request->isbn13;
             $book->save();
 
-             $userBook = new UserBook;
+            $userBook = new UserBook;
             $userBook->user()->associate(Auth::user());
             $userBook->book()->associate($book);
             $userBook->selling_price = $request->selling_price;

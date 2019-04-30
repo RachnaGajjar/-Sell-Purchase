@@ -17,6 +17,7 @@ class CreateProfilesTable extends Migration
         
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
+            $table->string('avatar')->default('defaultavatar.jpg');
             $table->enum('gender', ['MALE', 'FEMALE', 'OTHER'])->nullable();
             $table->string('semester')->nullable();
             $table->string('stream')->nullable();
