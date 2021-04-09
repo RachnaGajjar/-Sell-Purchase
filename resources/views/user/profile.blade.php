@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+        var loadFile = function(event) {
+        var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+
+                document.getElementById("output").style.display = "block";
+  };
+</script>
 <div class="c container">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -25,9 +33,8 @@
             @csrf
             <div class="form-group row">
               <div class="col-md-3">
-                @if(@$user->profile->avatar)
-                <img class="card-img-top" src="../uploads/users/{{ old('avatar', @$user->profile->avatar) }}" style="width: 150px; height: 150px; border-radius: 50%;">
-                @endif
+                
+                <img class="card-img-top" src="../uploads/users/{{ old('avatar', @$user->profile->avatar) }}" style="width: 150px; height: 150px; border-radius: 50%; display: none;">
               </div>
               <div class="col-sm-9" style="margin-top: 10px;">
                 <label>Update Profile Image</label><br>
